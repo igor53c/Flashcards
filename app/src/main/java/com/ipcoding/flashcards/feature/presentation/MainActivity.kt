@@ -3,43 +3,55 @@ package com.ipcoding.flashcards.feature.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.ipcoding.flashcards.ui.theme.FlashcardsTheme
+import androidx.lifecycle.MutableLiveData
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ipcoding.flashcards.feature.presentation.game.GameScreen
+import com.ipcoding.flashcards.feature.presentation.start.StartScreen
+import com.ipcoding.flashcards.feature.presentation.util.Screen
+import com.ipcoding.flashcards.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val isStatusBarVisibleLiveData = MutableLiveData(false)
+
+    override fun onResume() {
+        super.onResume()
+        isStatusBarVisibleLiveData.value = false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FlashcardsTheme {
-                // A surface container using the 'background' color from the theme
+            val navController = rememberNavController()
+            val systemUiController = rememberSystemUiController()
+            systemUiController.isStatusBarVisible = false
+
+            isStatusBarVisibleLiveData.observeForever {
+                systemUiController.isStatusBarVisible = it
+            }
+            AppTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    color = AppTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.StartScreen.route
+                    ) {
+                        composable(route = Screen.GameScreen.route) {
+                            GameScreen()
+                        }
+                        composable(route = Screen.StartScreen.route) {
+                            StartScreen(navController = navController)
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FlashcardsTheme {
-        Greeting("Android")
     }
 }
