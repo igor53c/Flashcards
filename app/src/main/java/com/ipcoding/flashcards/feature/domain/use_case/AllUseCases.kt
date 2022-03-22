@@ -1,4 +1,6 @@
 package com.ipcoding.flashcards.feature.domain.use_case
 
-class AllUseCases {
-}
+data class AllUseCases (
+    val createDatabase: CreateDatabase,
+    val getRandomWord: GetRandomWord
+)

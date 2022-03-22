@@ -12,6 +12,10 @@ interface WordDao {
     @Delete
     suspend fun deleteWord(word: Word)
 
-    @Query("SELECT * FROM words_table ORDER BY id ASC")
-    suspend fun getWords(): List<Word>
+    @Query("DELETE FROM words_table")
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM words_table WHERE numberOfHits = :numberOfHits "
+            + "ORDER BY id ASC LIMIT 100")
+    suspend fun getWords(numberOfHits: Int): List<Word>
 }

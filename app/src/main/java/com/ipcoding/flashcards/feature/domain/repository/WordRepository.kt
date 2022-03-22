@@ -8,5 +8,7 @@ interface WordRepository {
 
     suspend fun deleteWord(word: Word)
 
-    suspend fun getWords(): List<Word>
+    suspend fun deleteAll()
+
+    suspend fun getWords(numberOfHits: Int): List<Word>
 }

@@ -16,7 +16,11 @@ class WordRepositoryImpl(
         dao.deleteWord(word)
     }
 
-    override suspend fun getWords(): List<Word> {
-        return dao.getWords()
+    override suspend fun deleteAll() {
+        dao.deleteAll()
+    }
+
+    override suspend fun getWords(numberOfHits: Int): List<Word> {
+        return dao.getWords(numberOfHits)
     }
 }

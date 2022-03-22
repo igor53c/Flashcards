@@ -2,4 +2,5 @@
     <string name="app_name">Flashcards</string>
 
     <string name="play">Play</string>
+    <string name="enter_icon">Enter icon</string>
 </resources>
