@@ -9,9 +9,7 @@ import com.ipcoding.flashcards.core.domain.preferences.Preferences
 import com.ipcoding.flashcards.feature.data.data_source.AppDatabase
 import com.ipcoding.flashcards.feature.data.repository.WordRepositoryImpl
 import com.ipcoding.flashcards.feature.domain.repository.WordRepository
-import com.ipcoding.flashcards.feature.domain.use_case.AllUseCases
-import com.ipcoding.flashcards.feature.domain.use_case.CreateDatabase
-import com.ipcoding.flashcards.feature.domain.use_case.GetRandomWord
+import com.ipcoding.flashcards.feature.domain.use_case.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,7 +56,9 @@ object AppModule {
     ): AllUseCases {
         return AllUseCases(
             createDatabase = CreateDatabase(wordRepository, preferences),
-            getRandomWord = GetRandomWord(wordRepository)
+            getRandomWord = GetRandomWord(wordRepository),
+            stringInUnderscores = StringInUnderscores(),
+            typeLetter = TypeLetter()
         )
     }
 }

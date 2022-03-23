@@ -7,4 +7,6 @@ object Constants {
         "A", "S", "D", "F", "G", "H", "J", "K", "L", "P",
         "Y", "X", "C", "V", "B", "N", "M", "Ü", "Ö", "Ä"
     )
+
+    val DURATION_COLOR_ANIMATION = 1000
 }

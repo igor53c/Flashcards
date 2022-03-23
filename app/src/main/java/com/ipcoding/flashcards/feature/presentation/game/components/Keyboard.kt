@@ -1,7 +1,6 @@
 package com.ipcoding.flashcards.feature.presentation.game.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,7 +20,9 @@ import com.ipcoding.flashcards.R
 
 @Composable
 fun Keyboard(
-    maxWidth: Dp
+    maxWidth: Dp,
+    onLetterClick: (String) -> Unit,
+    onEnterClick: () -> Unit
 ) {
     Row(
         modifier = Modifier.height(maxWidth * 3 / 11)
@@ -38,7 +39,7 @@ fun Keyboard(
                             modifier = Modifier
                                 .size(size = maxWidth / 11)
                                 .padding(AppTheme.dimensions.spaceSuperSmall)
-                                .clickable {  }
+                                .clickable { onLetterClick(keyboardLetter) }
                         ) {
                             Box(
                                 modifier = Modifier
@@ -61,7 +62,7 @@ fun Keyboard(
                 .width(maxWidth / 11)
                 .height(maxWidth * 3 / 11)
                 .padding(AppTheme.dimensions.spaceSuperSmall)
-                .clickable { }
+                .clickable { onEnterClick() }
         ) {
             Box(
                 modifier = Modifier
