@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Flashcards</string>
 
-    <string name="play">Play</string>
+    <string name="translate_word">Prevedi reč</string>
     <string name="enter_icon">Enter icon</string>
-    <string name="help">Pomoć</string>
+    <string name="show_answer">Pokaži odgovor</string>
+    <string name="next_word">Sledeća reč</string>
+    <string name="change_mode_icon">Change mode icon</string>
+    <string name="share_icon">Share icon</string>
+    <string name="rate_app_icon">Rate app icon</string>
 </resources>

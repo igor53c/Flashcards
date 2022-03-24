@@ -1,8 +1,6 @@
 package com.ipcoding.flashcards.feature.presentation.start
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -14,33 +12,50 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ipcoding.flashcards.ui.theme.AppTheme
 import com.ipcoding.flashcards.R
+import com.ipcoding.flashcards.feature.presentation.start.components.IconsRow
 import com.ipcoding.flashcards.feature.presentation.util.Screen
 
 @Composable
 fun StartScreen(
     navController: NavController,
-    viewModel: StartViewModel = hiltViewModel()
+    viewModel: StartViewModel = hiltViewModel(),
+    onChangeThemeClick: () -> Unit
 ) {
     val isDatabaseReady = viewModel.isDatabaseReady.value
+    val isDarkTheme = viewModel.isDarkTheme.value
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(AppTheme.dimensions.spaceMedium),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(
-            onClick = {
-                if(isDatabaseReady)
-                    navController.navigate(Screen.GameScreen.route)
+        IconsRow(
+            onChangeThemeClick = {
+                viewModel.saveIsDarkTheme()
+                onChangeThemeClick()
             },
-            shape = AppTheme.customShapes.roundedCornerShapeMedium,
-            colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.primary)
+            isDarkTheme = isDarkTheme
+        )
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = stringResource(id = R.string.play),
-                style = AppTheme.typography.h1,
-                color = AppTheme.colors.background
-            )
+            Button(
+                onClick = {
+                    if(isDatabaseReady)
+                        navController.navigate(Screen.GameScreen.route)
+                },
+                shape = AppTheme.customShapes.roundedCornerShapeMedium,
+                colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.primary)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.translate_word),
+                    style = AppTheme.typography.h2,
+                    color = AppTheme.colors.background
+                )
+            }
         }
     }
 }

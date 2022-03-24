@@ -25,7 +25,7 @@ class GameViewModel @Inject constructor(
     private var _translation = mutableStateOf("")
     val translation: State<String> = _translation
 
-    private var _translationColor = mutableStateOf(Colors.Blue)
+    private var _translationColor = mutableStateOf(Colors.Yellow)
     val translationColor: State<Color> = _translationColor
 
     init {
@@ -48,20 +48,27 @@ class GameViewModel @Inject constructor(
     }
 
     fun checkIfWordIsCorrect() : Boolean {
-        return if(translation.value == randomWord.value.germanTranslation.uppercase()) true else {
-            changeTranslationColor()
+        return if(translation.value == randomWord.value.germanTranslation.uppercase()) {
+            changeTranslationColor(isError = false)
+            true
+        } else {
+            changeTranslationColor(isError = true)
             false
         }
     }
 
-    private fun changeTranslationColor() {
-        _translationColor.value = Colors.Error
+    private fun changeTranslationColor(isError: Boolean) {
+        _translationColor.value = if(isError) Colors.Error else Colors.Green
         val waitJob = viewModelScope.launch {
             delay(DURATION_COLOR_ANIMATION.toLong())
         }
         viewModelScope.launch {
             waitJob.join()
-            _translationColor.value = Colors.Blue
+            _translationColor.value = Colors.Yellow
         }
+    }
+
+    fun showAnswer() {
+        _translation.value= randomWord.value.germanTranslation.uppercase()
     }
 }

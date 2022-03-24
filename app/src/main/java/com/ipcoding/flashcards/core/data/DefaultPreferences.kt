@@ -17,4 +17,15 @@ class DefaultPreferences(
     override fun loadIsBeginning(): Boolean {
         return sharedPreferences.getBoolean(Preferences.IS_BEGINNING, true)
     }
+
+    override fun saveIsDarkTheme(isDarkTheme: Boolean) {
+        sharedPreferences
+            .edit()
+            .putBoolean(Preferences.IS_DARK_THEME, isDarkTheme)
+            .apply()
+    }
+
+    override fun loadIsDarkTheme(): Boolean {
+        return sharedPreferences.getBoolean(Preferences.IS_DARK_THEME, false)
+    }
 }

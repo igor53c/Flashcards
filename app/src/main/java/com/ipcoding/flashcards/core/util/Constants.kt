@@ -9,4 +9,5 @@ object Constants {
     )
 
     val DURATION_COLOR_ANIMATION = 1000
+    val APPLICATION_LINK = "https://play.google.com/store/apps/details?id=com.ipcoding.guesstheword"
 }

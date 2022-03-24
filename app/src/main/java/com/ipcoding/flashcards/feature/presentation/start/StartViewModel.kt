@@ -19,8 +19,12 @@ class StartViewModel @Inject constructor(
     private var _isDatabaseReady = mutableStateOf(false)
     val isDatabaseReady: State<Boolean> = _isDatabaseReady
 
+    private var _isDarkTheme = mutableStateOf(false)
+    val isDarkTheme: State<Boolean> = _isDarkTheme
+
     init {
         loadIsBeginning()
+        loadIsDarkTheme()
     }
 
     private fun loadIsBeginning() {
@@ -28,9 +32,18 @@ class StartViewModel @Inject constructor(
             createDatabase() else _isDatabaseReady.value = true
     }
 
+    private fun loadIsDarkTheme() {
+        _isDarkTheme.value = preferences.loadIsDarkTheme()
+    }
+
     private fun createDatabase() {
         viewModelScope.launch {
             _isDatabaseReady.value = allUseCases.createDatabase()
         }
+    }
+
+    fun saveIsDarkTheme() {
+        _isDarkTheme.value = !isDarkTheme.value
+        preferences.saveIsDarkTheme(isDarkTheme.value)
     }
 }

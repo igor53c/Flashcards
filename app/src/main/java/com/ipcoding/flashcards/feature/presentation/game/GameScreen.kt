@@ -25,6 +25,7 @@ fun GameScreen(
 ) {
     val defaultDimension = AppTheme.dimensions.default
     val maxWidth = remember { mutableStateOf(defaultDimension) }
+    val notNextWord = remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
@@ -48,13 +49,20 @@ fun GameScreen(
                 Words(modifier = Modifier.weight(1f))
 
                 Button(
-                    onClick = {},
+                    onClick = {
+                        if(notNextWord.value) {
+                            viewModel.showAnswer()
+                            notNextWord.value = false
+                        } else navController.navigate(Screen.GameScreen.route)
+                    },
                     shape = AppTheme.customShapes.roundedCornerShapeSmall,
                     colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.primary),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = stringResource(id = R.string.help),
+                        text = if(notNextWord.value)
+                            stringResource(id = R.string.show_answer) else
+                            stringResource(id = R.string.next_word),
                         style = AppTheme.typography.h6,
                         color = AppTheme.colors.background
                     )
@@ -64,10 +72,13 @@ fun GameScreen(
 
                 Keyboard(
                     maxWidth = maxWidth.value,
-                    onLetterClick = { viewModel.typeLetter(it) },
+                    onLetterClick = {
+                        if(notNextWord.value)
+                            viewModel.typeLetter(it)
+                    },
                     onEnterClick = {
-                        if(viewModel.checkIfWordIsCorrect())
-                            navController.navigate(Screen.StartScreen.route)
+                        if(notNextWord.value && viewModel.checkIfWordIsCorrect())
+                            notNextWord.value = false
                     }
                 )
             }
